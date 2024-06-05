@@ -7,9 +7,10 @@ function Question (questionId,questionText){
 
 const question1 = new Question(1, "Javascript Supports");
 
-function Answer (answerText){
+function CurrectAnswer (CurrectAnswerText){
 
-    this.answerText = answerText;
+    this.CurrectAnswerText = CurrectAnswerText ;
+    
 }
 
 function AnswerOption (AnswerOptionText){
@@ -22,8 +23,19 @@ const AnswerOption3 = new AnswerOption("Css");
 const AnswerOption4 = new AnswerOption("Html");
 
 
-const correctAnswer1 = new Answer("Fuctions")
+const correctAnswer1 = new CurrectAnswer("Fuctions")
+
+// Answere-2 , Answer -3 , Answer-4  and Answere-5
+
+function QACombination(questionObj,CurrectAnswerObj,answerOptions){
+    this.questionObj = questionObj;
+    this.CurrectAnswerObj = CurrectAnswerObj;
+    this.AnswerOption = answerOptions;
+}
 
 const qaCombination1 = new QACombination(
-    question1,correctAnswer1, [AnswerOption1,AnswerOption2,AnswerOption3,AnswerOption4]
+    question1,correctAnswer1, [AnswerOption1,AnswerOption2
+        ,AnswerOption3,AnswerOption4]
 )
+
+
