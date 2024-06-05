@@ -39,7 +39,7 @@ const AnswerOption_XHTML = new AnswerOption("Xhtml");
 const AnswerOption_CSS = new AnswerOption("Css");
 const AnswerOption_HTML = new AnswerOption("Html");
 
-const qaCombination1 = new QACombination(question1, correctAnswer1, [
+const qaCombination1 = new qaCombination1(question1, correctAnswer1, [
   AnswerOption_Functions,
   AnswerOption_XHTML,
   AnswerOption_CSS,
@@ -49,7 +49,7 @@ const qaCombination1 = new QACombination(question1, correctAnswer1, [
 const AnswerOption_JQuary = new AnswerOption("JQuary");
 const AnswerOption_XML = new AnswerOption("XML");
 
-const qaCombination2 = new QACombination(question2, correctAnswer2, [
+const qaCombination2 = new qaCombination1(question2, correctAnswer2, [
   AnswerOption_HTML,
   AnswerOption_JQuary,
   AnswerOption_CSS,
@@ -60,7 +60,7 @@ const AnswerOption_Python = new AnswerOption("Python Scriopt");
 const AnswerOption_Django = new AnswerOption("Django");
 const AnswerOption_NodeJS = new AnswerOption("NodeJS");
 
-const qaCombination3 = new QACombination(question3, correctAnswer3, [
+const qaCombination3 = new qaCombination1(question3, correctAnswer3, [
   AnswerOption_Python,
   AnswerOption_JQuary,
   AnswerOption_Django,
@@ -71,7 +71,7 @@ const AnswerOption_PHP = new AnswerOption("PHP");
 const AnswerOption_JS = new AnswerOption("JS");
 const AnswerOption_ALL = new AnswerOption("ALL");
 
-const qaCombination4 = new QACombination(question4, correctAnswer4, [
+const qaCombination4 = new qaCombination1(question4, correctAnswer4, [
   AnswerOption_PHP,
   AnswerOption_HTML,
   AnswerOption_JS,
@@ -82,9 +82,67 @@ const AnswerOption_Language = new AnswerOption("Language");
 const AnswerOption_ProgramingLanguage = new AnswerOption("Programing Language");
 const AnswerOption_Devlopment = new AnswerOption("Devlopment");
 
-const qaCombination5 = new QACombination(question5, correctAnswer5, [
+const qaCombination5 = new qaCombination1(question5, correctAnswer5, [
   AnswerOption_Language,
   AnswerOption_ProgramingLanguage,
   AnswerOption_Devlopment,
   AnswerOption_ALL,
+]);
+
+function QuizApp(QACombination) {
+  this.QACombination = QACombination;
+
+  //Task
+  // DEfine PAgeNo/PageINdex Propoerty
+
+  this.pageIndex = 0;
+
+  //Task
+  //Get Score
+
+  this.score = 0;
+
+  this.getScore = function () {
+    return this.score;
+  };
+
+  //Task
+  //incrementScore()
+
+  this.incrementScore = function () {
+    this.score = this.score + 1;
+  };
+
+  //Task
+  // CalculateScorePercentage()
+
+  this.CalculateScorePercentage = function () {
+    const totalNoOfQuestions = QACombination.length;
+    const scorePercentage = (this.getScore() / totalNoOfQuestions) * 100;
+    return scorePercentage;
+  };
+
+  //Task
+  // Check for the lastQACombination
+  // isLastQACombination
+  //[1 / 5] -> False
+  //[5 / 5 ] -> true
+
+  this.isLastQAcombination = function () {
+    const totalNoOfQuestions = QACombination.length;
+
+    if (this.pageIndex == totalNoOfQuestions - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+}
+
+const quizApp = new QuizApp([
+  qaCombination1,
+  qaCombination2,
+  qaCombination3,
+  qaCombination4,
+  qaCombination5,
 ]);
