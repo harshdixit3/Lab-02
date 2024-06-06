@@ -167,6 +167,23 @@ function QuizApp(QACombination) {
 
     progressElement.innerHTML = content;
   };
+
+  this.addListeners = function(){
+
+    for ( let index = 0; index < QACombination.length; index ++ ){
+
+      const buttonId = "Btn" + index;
+
+      const buttonObj = document.getElementById(buttonId);
+
+      buttonObj.onclick = function(event){
+
+        const target = event.currentTarget;
+        console.log("Target is " + JSON.stringify(target));
+      }
+    }
+
+  }
 }
 
 const quizApp = new QuizApp([
