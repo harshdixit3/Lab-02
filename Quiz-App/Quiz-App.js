@@ -36,23 +36,15 @@ function QACombination(questionObj, CurrectAnswerObj, answerOptions) {
   // check the user answer
   // verifyUSerAnswer(userAnswerText)
 
-  this.verifyUserAnswer = function (userSuppliedAnswer){
-
-    if(userSuppliedAnswer == correctAnswerObj.correctAnswereText){
-
-      console.log("True -> User Supplied Answere -> " + userSuppliedAnswer)
+  this.verifyUserAnswer = function (userSuppliedAnswer) {
+    if (userSuppliedAnswer == correctAnswerObj.correctAnswereText) {
+      console.log("True -> User Supplied Answere -> " + userSuppliedAnswer);
       return true;
-
-    }else{
-
-      console.log("False -> User Supplied Answer -> " + userSuppliedAnswer)
+    } else {
+      console.log("False -> User Supplied Answer -> " + userSuppliedAnswer);
       return false;
     }
-
-  }
-
-
-
+  };
 }
 
 const AnswerOption_Functions = new AnswerOption("Functions");
