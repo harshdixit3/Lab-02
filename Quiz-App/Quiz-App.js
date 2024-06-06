@@ -24,20 +24,20 @@ const correctAnswer3 = new CurrectAnswer("Python Script");
 const correctAnswer4 = new CurrectAnswer("PHP");
 const correctAnswer5 = new CurrectAnswer("Programing Language");
 
-function AnswerOption(AnswerOptionText) {
-  this.AnswerOptionText = AnswerOptionText;
+function AnswerOption(answerOptionText) {
+  this.answerOptionText = answerOptionText;
 }
 
-function QACombination(questionObj, CurrectAnswerObj, answerOptions) {
+function QACombination(questionObj, currectAnswerObj, answerOptions) {
   this.questionObj = questionObj;
-  this.CurrectAnswerObj = CurrectAnswerObj;
-  this.AnswerOption = answerOptions;
+  this.CurrectAnswerObj = currectAnswerObj;
+  this.answerOptions = answerOptions;
 
   // check the user answer
   // verifyUSerAnswer(userAnswerText)
 
   this.verifyUserAnswer = function (userSuppliedAnswer) {
-    if (userSuppliedAnswer == correctAnswerObj.correctAnswereText) {
+    if (userSuppliedAnswer == correctAnswer1.correctAnswereText) {
       console.log("True -> User Supplied Answere -> " + userSuppliedAnswer);
       return true;
     } else {
@@ -47,63 +47,63 @@ function QACombination(questionObj, CurrectAnswerObj, answerOptions) {
   };
 }
 
-const AnswerOption_Functions = new AnswerOption("Functions");
-const AnswerOption_XHTML = new AnswerOption("Xhtml");
-const AnswerOption_CSS = new AnswerOption("Css");
-const AnswerOption_HTML = new AnswerOption("Html");
+const answerOption_Functions = new AnswerOption("Functions");
+const answerOption_XHTML = new AnswerOption("Xhtml");
+const answerOption_CSS = new AnswerOption("Css");
+const answerOption_HTML = new AnswerOption("Html");
 
-const qaCombination1 = new qaCombination1(question1, correctAnswer1, [
-  AnswerOption_Functions,
-  AnswerOption_XHTML,
-  AnswerOption_CSS,
-  AnswerOption_HTML,
+const qaCombination1 = new QACombination(question1, correctAnswer1, [
+  answerOption_Functions,
+  answerOption_XHTML,
+  answerOption_CSS,
+  answerOption_HTML,
 ]);
 
-const AnswerOption_JQuary = new AnswerOption("JQuary");
-const AnswerOption_XML = new AnswerOption("XML");
+const answerOption_JQuary = new AnswerOption("JQuary");
+const answerOption_XML = new AnswerOption("XML");
 
-const qaCombination2 = new qaCombination1(question2, correctAnswer2, [
-  AnswerOption_HTML,
-  AnswerOption_JQuary,
-  AnswerOption_CSS,
-  AnswerOption_XML,
+const qaCombination2 = new QACombination(question2, correctAnswer2, [
+  answerOption_HTML,
+  answerOption_JQuary,
+  answerOption_CSS,
+  answerOption_XML,
 ]);
 
-const AnswerOption_Python = new AnswerOption("Python Scriopt");
-const AnswerOption_Django = new AnswerOption("Django");
-const AnswerOption_NodeJS = new AnswerOption("NodeJS");
+const answerOption_Python = new AnswerOption("Python Scriopt");
+const answerOption_Django = new AnswerOption("Django");
+const answerOption_NodeJS = new AnswerOption("NodeJS");
 
-const qaCombination3 = new qaCombination1(question3, correctAnswer3, [
-  AnswerOption_Python,
-  AnswerOption_JQuary,
-  AnswerOption_Django,
-  AnswerOption_NodeJS,
+const qaCombination3 = new QACombination(question3, correctAnswer3, [
+  answerOption_Python,
+  answerOption_JQuary,
+  answerOption_Django,
+  answerOption_NodeJS,
 ]);
 
-const AnswerOption_PHP = new AnswerOption("PHP");
-const AnswerOption_JS = new AnswerOption("JS");
-const AnswerOption_ALL = new AnswerOption("ALL");
+const answerOption_PHP = new AnswerOption("PHP");
+const answerOption_JS = new AnswerOption("JS");
+const answerOption_ALL = new AnswerOption("ALL");
 
-const qaCombination4 = new qaCombination1(question4, correctAnswer4, [
-  AnswerOption_PHP,
-  AnswerOption_HTML,
-  AnswerOption_JS,
-  AnswerOption_ALL,
+const qaCombination4 = new QACombination(question4, correctAnswer4, [
+  answerOption_PHP,
+  answerOption_HTML,
+  answerOption_JS,
+  answerOption_ALL,
 ]);
 
-const AnswerOption_Language = new AnswerOption("Language");
-const AnswerOption_ProgramingLanguage = new AnswerOption("Programing Language");
-const AnswerOption_Devlopment = new AnswerOption("Devlopment");
+const answerOption_Language = new AnswerOption("Language");
+const answerOption_ProgramingLanguage = new AnswerOption("Programing Language");
+const answerOption_Devlopment = new AnswerOption("Devlopment");
 
-const qaCombination5 = new qaCombination1(question5, correctAnswer5, [
-  AnswerOption_Language,
-  AnswerOption_ProgramingLanguage,
-  AnswerOption_Devlopment,
-  AnswerOption_ALL,
+const qaCombination5 = new QACombination(question5, correctAnswer5, [
+  answerOption_Language,
+  answerOption_ProgramingLanguage,
+  answerOption_Devlopment,
+  answerOption_ALL,
 ]);
 
-function QuizApp(QACombination) {
-  this.QACombination = QACombination;
+function QuizApp(qaCombination) {
+  this.qaCombination = qaCombination;
 
   //Task
   // DEfine PAgeNo/PageINdex Propoerty
@@ -129,8 +129,8 @@ function QuizApp(QACombination) {
   //Task
   // CalculateScorePercentage()
 
-  this.CalculateScorePercentage = function () {
-    const totalNoOfQuestions = QACombination.length;
+  this.calculateScorePercentage = function () {
+    const totalNoOfQuestions = qaCombination.length;
     const scorePercentage = (this.getScore() / totalNoOfQuestions) * 100;
     return scorePercentage;
   };
@@ -142,7 +142,7 @@ function QuizApp(QACombination) {
   //[5 / 5 ] -> true
 
   this.isLastQAcombination = function () {
-    const totalNoOfQuestions = QACombination.length;
+    const totalNoOfQuestions = qaCombination.length;
 
     if (this.pageIndex == totalNoOfQuestions - 1) {
       return true;
@@ -157,11 +157,11 @@ function QuizApp(QACombination) {
   this.updateFooter = function () {
     const progressElement = document.getElementById("progress");
 
-    const QACombination = this.QACombination[this.pageIndex];
+    const qaCombination = qaCombination[this.pageIndex];
 
-    const questionId = QACombination.questionObj.questionId;
+    const questionId = qaCombination.questionObj.questionId;
 
-    const totalNoOfQuestions = QACombination.length;
+    const totalNoOfQuestions = qaCombination.length;
 
     const content = `Question ${questionId} of ${totalNoOfQuestions}`;
 
@@ -170,13 +170,13 @@ function QuizApp(QACombination) {
 
   this.addListeners = function(){
 
-    for ( let index = 0; index < QACombination.length; index ++ ){
+    for ( let index = 0; index < 4 ; index ++ ){
 
       const buttonId = "Btn" + index;
 
       const buttonObj = document.getElementById(buttonId);
 
-      buttonObj.onclick = function(event){
+      buttonObj.onclick = function(event) {
 
         const target = event.currentTarget;
         console.log("Target is " + JSON.stringify(target));
@@ -184,6 +184,20 @@ function QuizApp(QACombination) {
     }
 
   }
+
+  this.load = function(){
+
+    
+    this.addListeners();
+
+
+  }
+
+  //displayquizpage
+  //displayQAcombinationObj -> pageIndex
+
+  //update question obj
+  //displayFooter
 }
 
 const quizApp = new QuizApp([
@@ -193,3 +207,6 @@ const quizApp = new QuizApp([
   qaCombination4,
   qaCombination5,
 ]);
+
+
+quizApp.load();
