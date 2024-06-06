@@ -102,208 +102,183 @@ const qaCombination5 = new QACombination(question5, correctAnswer5, [
   answerOption_ALL,
 ]);
 
-function QuizApp (qaCombinations) {
-
+function QuizApp(qaCombinations) {
   this.qaCombinations = qaCombinations;
 
   // Task-
-    // To define PageNo/PageIndex Property
-  
+  // To define PageNo/PageIndex Property
+
   this.pageIndex = 0;
 
   // Task
-    // GetScore
-  
+  // GetScore
+
   this.score = 0;
-  this.getScore = function(){
+  this.getScore = function () {
     return this.score;
-  } 
+  };
 
   // Task
-    // incrementScore()
+  // incrementScore()
 
-  this.incrementScore = function(){
-
+  this.incrementScore = function () {
     this.score = this.score + 1;
-  }
+  };
 
   // Task
-    // calculateScorePercentage()
+  // calculateScorePercentage()
 
-  this.calculateScorePercentage = function(){
-
+  this.calculateScorePercentage = function () {
     // (2 / 5) * 100
 
     const totalNoOfQuestions = qaCombinations.length;
     const scorePercentage = (this.getScore() / totalNoOfQuestions) * 100;
 
     return scorePercentage;
-  }
+  };
 
   // Task
-    // Check for the lastQACombination
-    // isLastQACombination
-    // [1 / 5] -> false
-    // [5 / 5] -> true
+  // Check for the lastQACombination
+  // isLastQACombination
+  // [1 / 5] -> false
+  // [5 / 5] -> true
 
-  this.isLastQACombination = function(){
-
+  this.isLastQACombination = function () {
     const totalNoOfQuestions = qaCombinations.length;
 
-    if (this.pageIndex == totalNoOfQuestions - 1){
-
+    if (this.pageIndex == totalNoOfQuestions - 1) {
       return true;
-    }else{
+    } else {
       return false;
     }
-  }
+  };
 
   // Task
-    // updateFooter
+  // updateFooter
 
-  this.updateFooter = function (){
-
+  this.updateFooter = function () {
     const progressElement = document.getElementById("progress");
-  
+
     const qaCombination = qaCombinations[this.pageIndex];
 
     const questionId = qaCombination.questionObj.questionId;
     const totalNoOfQuestions = qaCombinations.length;
-    
+
     const content = `Question ${questionId} of ${totalNoOfQuestions}`;
     progressElement.innerHTML = content;
-  }
+  };
 
-  // 
+  //
 
-  this.addListeners = function (){
-
+  this.addListeners = function () {
     // Iterate over all the button objects
     // Add the onclick listener
     // Have a dummy implementation as part of event handling
 
     // 4 can be retrived through qaCombinations[pageIndex].answerOptions.length
-    for (let index = 0; index < 4; index ++){
-
+    for (let index = 0; index < 4; index++) {
       const buttonId = "btn" + index;
 
       const buttonObj = document.getElementById(buttonId);
 
-      console.log("THIS 1 -> " + JSON.stringify(this));      
+      console.log("THIS 1 -> " + JSON.stringify(this));
       const QUIZ_APP_OBJ = this;
 
-      buttonObj.onclick = function(event){
-
-        console.log("THIS 2 -> " + JSON.stringify(this));      
+      buttonObj.onclick = function (event) {
+        console.log("THIS 2 -> " + JSON.stringify(this));
         const target = event.currentTarget;
         console.log("Target is " + JSON.stringify(target));
 
-        const answerChoiceSpanElement 
-          = target.children[0];
+        const answerChoiceSpanElement = target.children[0];
         const userSuppliedAnswer = answerChoiceSpanElement.innerHTML;
         console.log("User Answer ->" + userSuppliedAnswer);
 
-        const qaCombination = QUIZ_APP_OBJ.qaCombinations[QUIZ_APP_OBJ.pageIndex];
+        const qaCombination =
+          QUIZ_APP_OBJ.qaCombinations[QUIZ_APP_OBJ.pageIndex];
 
         const outcome = qaCombination.verifyUserAnswer(userSuppliedAnswer);
-        if (outcome){
+        if (outcome) {
           QUIZ_APP_OBJ.incrementScore();
         }
 
         // Load the Next Page
         QUIZ_APP_OBJ.loadNextPage();
 
-
-        // Button Text -> userSuppliedAnswer          
-          // target [button].children[0]
+        // Button Text -> userSuppliedAnswer
+        // target [button].children[0]
         // Verify this answer
         // if (correct_answer)
-          // increment_score
-
-      }
+        // increment_score
+      };
     }
-  }
+  };
 
-  this.loadNextPage = function(){
+  this.loadNextPage = function () {
+    // loadTheNextPage
+    // increment -> pageIndex
+    // attachListeners
+    // displayQuizPage
 
-        // loadTheNextPage
-          // increment -> pageIndex 
-          // attachListeners
-          // displayQuizPage
-
-    if (this.isLastQACombination()){
+    if (this.isLastQACombination()) {
       this.displayResultPage();
-    }else{
-
-      this.pageIndex ++;
+    } else {
+      this.pageIndex++;
       this.addListeners();
-      this.displayQuizPage();  
+      this.displayQuizPage();
     }
-  }
+  };
 
-  this.displayResultPage = function(){
-
-    const content = 
-      `
+  this.displayResultPage = function () {
+    const content = `
       <h1>Result</h1>
       <h2 class='score'>Your Score : ${this.getScore()}. Percentage is ${this.calculateScorePercentage()} </h2>
-      `
-      const quizHtmlElement = document.getElementById("quiz");
-      quizHtmlElement.innerHTML = content;
-  }
+      `;
+    const quizHtmlElement = document.getElementById("quiz");
+    quizHtmlElement.innerHTML = content;
+  };
 
-  this.displayQuizPage = function(){
-
+  this.displayQuizPage = function () {
     this.displayQACombinationSection();
     this.displayFooter();
-  }
+  };
 
-  this.displayQACombinationSection = function(){
-
+  this.displayQACombinationSection = function () {
     const qaCombination = this.qaCombinations[this.pageIndex];
 
     // Question
     const questionHtmlElement = document.getElementById("question");
-    questionHtmlElement.innerHTML = 
-      qaCombination.questionObj.questionText;
+    questionHtmlElement.innerHTML = qaCombination.questionObj.questionText;
 
     // Answer Choices
 
-    for (let index = 0; index < 4; index ++){
-
-      const answerOptionValue = 
+    for (let index = 0; index < 4; index++) {
+      const answerOptionValue =
         qaCombination.answerOptions[index].answerOptionText;
 
       const answerOptionId = "choice" + index;
       const answerOptionHtmlElement = document.getElementById(answerOptionId);
 
-      answerOptionHtmlElement.innerHTML = answerOptionValue
+      answerOptionHtmlElement.innerHTML = answerOptionValue;
     }
-  }
+  };
 
-  this.displayFooter = function(){
-
+  this.displayFooter = function () {
     this.updateFooter();
-  }
+  };
 
   // displayQuizPage
-    // displayQACombinationSection
-      // QACombinationObj -> pageIndex
+  // displayQACombinationSection
+  // QACombinationObj -> pageIndex
 
-      // update question-object
-      // 
-    // displayFooter
-    
-    
-  this.load = function(){
+  // update question-object
+  //
+  // displayFooter
 
+  this.load = function () {
     this.addListeners();
     this.displayQuizPage();
-  }
-  
+  };
 }
-
-
 
 const quizApp = new QuizApp([
   qaCombination1,
@@ -312,6 +287,5 @@ const quizApp = new QuizApp([
   qaCombination4,
   qaCombination5,
 ]);
-
 
 quizApp.load();
