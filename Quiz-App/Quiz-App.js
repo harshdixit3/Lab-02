@@ -69,7 +69,7 @@ const qaCombination2 = new QACombination(question2, correctAnswer2, [
   answerOption_XML,
 ]);
 
-const answerOption_Python = new AnswerOption("Python Scriopt");
+const answerOption_Python = new AnswerOption("Python Script");
 const answerOption_Django = new AnswerOption("Django");
 const answerOption_NodeJS = new AnswerOption("NodeJS");
 
@@ -102,103 +102,208 @@ const qaCombination5 = new QACombination(question5, correctAnswer5, [
   answerOption_ALL,
 ]);
 
-function QuizApp(qaCombination) {
-  this.qaCombination = qaCombination;
+function QuizApp (qaCombinations) {
 
-  //Task
-  // DEfine PAgeNo/PageINdex Propoerty
+  this.qaCombinations = qaCombinations;
 
+  // Task-
+    // To define PageNo/PageIndex Property
+  
   this.pageIndex = 0;
 
-  //Task
-  //Get Score
-
+  // Task
+    // GetScore
+  
   this.score = 0;
-
-  this.getScore = function () {
+  this.getScore = function(){
     return this.score;
-  };
-
-  //Task
-  //incrementScore()
-
-  this.incrementScore = function () {
-    this.score = this.score + 1;
-  };
-
-  //Task
-  // CalculateScorePercentage()
-
-  this.calculateScorePercentage = function () {
-    const totalNoOfQuestions = qaCombination.length;
-    const scorePercentage = (this.getScore() / totalNoOfQuestions) * 100;
-    return scorePercentage;
-  };
-
-  //Task
-  // Check for the lastQACombination
-  // isLastQACombination
-  //[1 / 5] -> False
-  //[5 / 5 ] -> true
-
-  this.isLastQAcombination = function () {
-    const totalNoOfQuestions = qaCombination.length;
-
-    if (this.pageIndex == totalNoOfQuestions - 1) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  } 
 
   // Task
-  // UpdateFooter
+    // incrementScore()
 
-  this.updateFooter = function () {
+  this.incrementScore = function(){
+
+    this.score = this.score + 1;
+  }
+
+  // Task
+    // calculateScorePercentage()
+
+  this.calculateScorePercentage = function(){
+
+    // (2 / 5) * 100
+
+    const totalNoOfQuestions = qaCombinations.length;
+    const scorePercentage = (this.getScore() / totalNoOfQuestions) * 100;
+
+    return scorePercentage;
+  }
+
+  // Task
+    // Check for the lastQACombination
+    // isLastQACombination
+    // [1 / 5] -> false
+    // [5 / 5] -> true
+
+  this.isLastQACombination = function(){
+
+    const totalNoOfQuestions = qaCombinations.length;
+
+    if (this.pageIndex == totalNoOfQuestions - 1){
+
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  // Task
+    // updateFooter
+
+  this.updateFooter = function (){
+
     const progressElement = document.getElementById("progress");
-
-    const qaCombination = qaCombination[this.pageIndex];
+  
+    const qaCombination = qaCombinations[this.pageIndex];
 
     const questionId = qaCombination.questionObj.questionId;
-
-    const totalNoOfQuestions = qaCombination.length;
-
+    const totalNoOfQuestions = qaCombinations.length;
+    
     const content = `Question ${questionId} of ${totalNoOfQuestions}`;
-
     progressElement.innerHTML = content;
-  };
+  }
 
-  this.addListeners = function(){
+  // 
 
-    for ( let index = 0; index < 4 ; index ++ ){
+  this.addListeners = function (){
 
-      const buttonId = "Btn" + index;
+    // Iterate over all the button objects
+    // Add the onclick listener
+    // Have a dummy implementation as part of event handling
+
+    // 4 can be retrived through qaCombinations[pageIndex].answerOptions.length
+    for (let index = 0; index < 4; index ++){
+
+      const buttonId = "btn" + index;
 
       const buttonObj = document.getElementById(buttonId);
 
-      buttonObj.onclick = function(event) {
+      console.log("THIS 1 -> " + JSON.stringify(this));      
+      const QUIZ_APP_OBJ = this;
 
+      buttonObj.onclick = function(event){
+
+        console.log("THIS 2 -> " + JSON.stringify(this));      
         const target = event.currentTarget;
         console.log("Target is " + JSON.stringify(target));
+
+        const answerChoiceSpanElement 
+          = target.children[0];
+        const userSuppliedAnswer = answerChoiceSpanElement.innerHTML;
+        console.log("User Answer ->" + userSuppliedAnswer);
+
+        const qaCombination = QUIZ_APP_OBJ.qaCombinations[QUIZ_APP_OBJ.pageIndex];
+
+        const outcome = qaCombination.verifyUserAnswer(userSuppliedAnswer);
+        if (outcome){
+          QUIZ_APP_OBJ.incrementScore();
+        }
+
+        // Load the Next Page
+        QUIZ_APP_OBJ.loadNextPage();
+
+
+        // Button Text -> userSuppliedAnswer          
+          // target [button].children[0]
+        // Verify this answer
+        // if (correct_answer)
+          // increment_score
+
       }
     }
-
   }
 
+  this.loadNextPage = function(){
+
+        // loadTheNextPage
+          // increment -> pageIndex 
+          // attachListeners
+          // displayQuizPage
+
+    if (this.isLastQACombination()){
+      this.displayResultPage();
+    }else{
+
+      this.pageIndex ++;
+      this.addListeners();
+      this.displayQuizPage();  
+    }
+  }
+
+  this.displayResultPage = function(){
+
+    const content = 
+      `
+      <h1>Result</h1>
+      <h2 class='score'>Your Score : ${this.getScore()}. Percentage is ${this.calculateScorePercentage()} </h2>
+      `
+      const quizHtmlElement = document.getElementById("quiz");
+      quizHtmlElement.innerHTML = content;
+  }
+
+  this.displayQuizPage = function(){
+
+    this.displayQACombinationSection();
+    this.displayFooter();
+  }
+
+  this.displayQACombinationSection = function(){
+
+    const qaCombination = this.qaCombinations[this.pageIndex];
+
+    // Question
+    const questionHtmlElement = document.getElementById("question");
+    questionHtmlElement.innerHTML = 
+      qaCombination.questionObj.questionText;
+
+    // Answer Choices
+
+    for (let index = 0; index < 4; index ++){
+
+      const answerOptionValue = 
+        qaCombination.answerOptions[index].answerOptionText;
+
+      const answerOptionId = "choice" + index;
+      const answerOptionHtmlElement = document.getElementById(answerOptionId);
+
+      answerOptionHtmlElement.innerHTML = answerOptionValue
+    }
+  }
+
+  this.displayFooter = function(){
+
+    this.updateFooter();
+  }
+
+  // displayQuizPage
+    // displayQACombinationSection
+      // QACombinationObj -> pageIndex
+
+      // update question-object
+      // 
+    // displayFooter
+    
+    
   this.load = function(){
 
-    
     this.addListeners();
-
-
+    this.displayQuizPage();
   }
-
-  //displayquizpage
-  //displayQAcombinationObj -> pageIndex
-
-  //update question obj
-  //displayFooter
+  
 }
+
+
 
 const quizApp = new QuizApp([
   qaCombination1,
