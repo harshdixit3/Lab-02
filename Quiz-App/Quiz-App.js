@@ -32,6 +32,27 @@ function QACombination(questionObj, CurrectAnswerObj, answerOptions) {
   this.questionObj = questionObj;
   this.CurrectAnswerObj = CurrectAnswerObj;
   this.AnswerOption = answerOptions;
+
+  // check the user answer
+  // verifyUSerAnswer(userAnswerText)
+
+  this.verifyUserAnswer = function (userSuppliedAnswer){
+
+    if(userSuppliedAnswer == correctAnswerObj.correctAnswereText){
+
+      console.log("True -> User Supplied Answere -> " + userSuppliedAnswer)
+      return true;
+
+    }else{
+
+      console.log("False -> User Supplied Answer -> " + userSuppliedAnswer)
+      return false;
+    }
+
+  }
+
+
+
 }
 
 const AnswerOption_Functions = new AnswerOption("Functions");
@@ -136,6 +157,23 @@ function QuizApp(QACombination) {
     } else {
       return false;
     }
+  };
+
+  // Task
+  // UpdateFooter
+
+  this.updateFooter = function () {
+    const progressElement = document.getElementById("progress");
+
+    const QACombination = this.QACombination[this.pageIndex];
+
+    const questionId = QACombination.questionObj.questionId;
+
+    const totalNoOfQuestions = QACombination.length;
+
+    const content = `Question ${questionId} of ${totalNoOfQuestions}`;
+
+    progressElement.innerHTML = content;
   };
 }
 
